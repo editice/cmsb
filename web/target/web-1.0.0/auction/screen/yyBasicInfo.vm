@@ -1,0 +1,213 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:24px;color:#64a1d7;margin-top:20px;margin-bottom:30px;font-weight:blod;display:inline" >
+        全国等级医院查询
+    </div>
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+    <h5>
+        <form class="form-horizontal" method="post" action="/web/law/yyBasicInfo?pageNum=1">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">医院名称</label>
+                <input  type="text" id="keyword1" name="yymc" class="form-control" placeholder="..."
+                        style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">省市</label>
+                <input type="text" id="keyword2" name="ss" class="form-control" placeholder="..."
+                       style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">等级</label>
+
+                <div style="width: 200px;float:left">
+                    <select name="dj" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">三甲</option>
+                        <option value="2">二甲</option>
+                        <option value="3">一甲</option>
+                        <option value="4">三乙</option>
+                        <option value="5">二乙</option>
+                        <option value="6">一乙</option>
+                        <option value="7">三丙</option>
+                        <option value="8">二丙</option>
+                        <option value="9">一丙</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">床位数</label>
+
+                <div style="width: 200px;float:left">
+                    <select name="cws" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">0 ~ 99</option>
+                        <option value="2">100 ~ 499</option>
+                        <option value="3">500 ~ 999</option>
+                        <option value="4">1000及以上</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">日门诊量</label>
+
+                <div style="width: 200px;float:left">
+                    <select name="rmzl" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">0 ~ 99</option>
+                        <option value="2">100 ~ 999</option>
+                        <option value="3">1000 ~ 4999</option>
+                        <option value="4">5000及以上</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">特色科室</label>
+                <input type="text" id="keyword" name="yyks" class="form-control" placeholder=""
+                       style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">拥有设备</label>
+                <input type="text" id="keyword" name="yysb" class="form-control" placeholder=""
+                       style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">查询</button>
+            </div>
+        </form>
+    </h5>
+
+    <div>
+        #if(${result.get("info")}==true)
+            <div class="table-responsive">
+                #set ($cnt=1)
+                <table class="table table-hover">
+                    <thead>
+                    <tr style="font-size: 14px;font-weight:blod;color:blue">
+                        <th>省份</th>
+                        <th>医院名称</th>
+                        <th>医院等级</th>
+                        <th>床位数</th>
+                        <th>日门诊量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($param in $result.get("yyBasicInfo"))
+                        <tr style="font-size: 10px">
+                            <td>$!{param.ss}</td>
+                            <td><a href="/web/law/yyDetail?yymc=$!{param.yymc}">$!{param.yymc}</a></td>
+                            <td>$!{param.dj}</td>
+                            <td>$!{param.cws}</td>
+                            <td>$!{param.rmzl}</td>
+                        </tr>
+                            #set ($cnt=$cnt+1)
+                        #end
+                    </tbody>
+                </table>
+            </div>
+
+
+            #set ($prefix='/web/law/yyBasicInfo?yymc=')
+            #set ($name1 =$!{result.get("yymc")})
+            #set ($name2 =$!{result.get("ss")})
+            #set ($name3 =$!{result.get("dj")})
+            #set ($name4 =$!{result.get("cws")})
+            #set ($name5 =$!{result.get("rmzl")})
+            #set ($name6 =$!{result.get("yyks")})
+            #set ($name7 =$!{result.get("yysb")})
+            #set ($prefix="${prefix}$!{name1}&yymc=${name1}&ss=${name2}&dj=${name3}&cws=${name4}&rmzl=${name5}&yyks=${name6}&yysb=${name7}")
+            #set ($pageBean=${result.get("pageBean")})
+
+            <div class="pagination pagination-centered">
+                <ul class="pagination">
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>首页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=1">首页</a></li>
+                    #end
+
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>«</a></li>
+                    #else
+                        <li><a href="$!{prefix}&pageNum=$pageBean.pre" class="active">«</a></li>
+                    #end
+
+
+                    #foreach($p in $pageBean.pages)
+                        #if($p==$pageBean.pageNum)
+                            <li class="disabled"><a>$p</a></li>
+                        #else
+                            <li><a href="${prefix}&pageNum=$p">$p</a></li>
+                        #end
+
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>»</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.next">»</a></li>
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>末页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.totalPage">末页</a></li>
+                    #end
+                </ul>
+            </div>
+        #end
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $("#keyword1").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/web/medicine/getAssociation",
+                dataType: "jsonp",
+                data: {
+                    maxRows: 10,
+                    q: request.term,
+                    biz:'7'
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1
+    });
+
+    $("#keyword2").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/web/medicine/getAssociation",
+                dataType: "jsonp",
+                data: {
+                    maxRows: 10,
+                    q: request.term,
+                    biz:'8'
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1
+    });
+</script>
+
+

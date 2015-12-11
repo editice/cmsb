@@ -1,0 +1,18 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a href="/web/bs/mishuOp">秘书权限</a></li>
+        <li role="presentation"  class="active"><a href="/web/bs/about">关于我们</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form" method="post" action="/web/bs/changeOp">
+        <input type="hidden" name="tag" value="about"/>
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" rows="10" name="about" >$!{result}</textarea>
+        </div>
+        <div clas="form-group">
+            <button type="submit" name="file" class="btn btn-lg btn-default">修改</button>
+            <div>
+    </form>
+</div>

@@ -1,0 +1,243 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:16px;color:#64a1d7;margin-top:10px;margin-bottom:10px;font-weight:blod">
+        $!result.get("yymc")
+    </div>
+
+    <div class="xian " style="width:1000px; margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+
+    <div>
+
+        <div class="container" style="height:400px;width:1000px;margin-top:30px">
+            <div class="row">
+                <div id = "main" style="height:400px" class="col-xs-6"> </div>
+                <div id = "second" style="height:400px" class="col-xs-6"> </div>
+            </div>
+        </div>
+        <div class="container" style="height:400px;width:1000px;margin-top:30px">
+            <div class="row">
+                <div id = "third" style="height:400px" class="col-xs-6"> </div>
+                <div id = "four" style="height:400px" class="col-xs-6"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="xian " style="width:1000px;margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+
+    <div>
+        <div class="table-responsive">
+            #set ($cnt=1)
+        ##    table-hover 浮动
+            <table class="table table-hover">
+                <thead>
+                <tr style="font-size: 14px;font-weight:blod;color:blue">
+                    <th>医院名称</th>
+                    <th>医院等级</th>
+                    <th>省市</th>
+                    <th>医院地址</th>
+                    <th>负责人</th>
+                    <th>床位数</th>
+                    <th>日门诊量</th>
+                    <th>科室</th>
+                    <th>设备</th>
+                </tr>
+                </thead>
+                <tbody>
+                    #foreach($param in $result.get("basicInfos"))
+                    <tr style="font-size: 10px">
+                        <td>$!{param.yymc}</td>
+                        <td>$!{param.dj}</td>
+                        <td>$!{param.ss}</td>
+                        <td>$!{param.yydz}</td>
+                        <td>$!{param.fzr}</td>
+                        <td>$!{param.cws}</td>
+                        <td>$!{param.rmzl}</td>
+                        <td>$!{param.yyks}</td>
+                        <td>$!{param.yysb}</td>
+                    </tr>
+                        #set ($cnt=$cnt+1)
+                    #end
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: '/web/js/dist/'
+        }
+    });
+
+    // 使用
+    require([
+                'echarts',
+                'echarts/theme/macarons',
+                'echarts/chart/line'
+            ],
+
+            function (ec) {
+                var firstLine = ec.init(document.getElementById('main'), 'macarons');
+                var secondLine = ec.init(document.getElementById('second'), 'macarons');
+                var thirdLine = ec.init(document.getElementById('third'), 'macarons');
+                var fourLine = ec.init(document.getElementById('four'), 'macarons');
+
+                var lineOption = {
+                    title : {
+                        show : true,
+                        text : "累计排序图",
+                        x : '40',
+                        textStyle : {
+                            fontSize: 18,
+                            fontWeight: 'bolder',
+                            color: '#333'
+                        }
+                    },
+                    tooltip: {
+                        show: true
+                    },
+                    legend: {
+                        x : 'center',
+                        y : 'bottom',
+                        data: ['批文数量']
+                    },
+
+                    grid : {
+                        borderWidth : 0
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisLine : {
+                                show : false
+                            },
+                            axisTick : {
+                                show : false
+                            },
+                            splitLine : {
+                                show : false
+                            },
+
+                            data: ["第一", "第二", "第三", "第四", "第五", "第六", "第七", "第八", "第九", "第十", "十一", "十二"]
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            axisLine : {
+                                show : false,
+                                width : 0
+                            },
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            "stack" : "总量",  // 要堆积的同名
+                            "name": "",
+                            "type": "line",
+                            "data":  [270, 700, 500, 400, 680, 770, 600, 520, 550, 280, 760, 700],
+                            markPoint : {
+                                data : [
+                                ]
+                            }
+                        }
+                    ]
+                };
+
+                function initLineData(data, option) {
+                    if(data && option) {
+                        if(data.xAxis && data.xAxis.data && data.xAxis.data.length > 0) {
+                            option.xAxis[0].data = data.xAxis.data;
+                        }
+                        if(data.series.data && data.series.data.length > 0) {
+                            option.series = [];
+                            for(var i = 0; i < data.series.data.length; i++) {
+                                var oneData = data.series.data[i];
+                                var oneSeries = {};
+                                oneSeries.type = 'line';
+                                oneSeries.stack = 'fl';
+                                oneSeries.data = oneData.data;
+                                oneSeries.name = oneData.name;
+                                option.series.push(oneSeries);
+
+                                try {
+                                    if(data.dataTip && data.dataTip.data.length > 0) {
+                                        var dataTipValues = data.dataTip.data;
+                                        var markPoint = {};
+                                        var data4Tips = [];
+                                        for( var tipIndex = 0; tipIndex < 1; tipIndex++) {
+                                            var tipValue = {};
+                                            tipValue.name = "排名 : " + dataTipValues[tipIndex] + "  " + " 数量";
+                                            tipValue.value = data.dataTip.value[tipIndex];
+                                            tipValue.xAxis = dataTipValues[tipIndex];
+                                            tipValue.yAxis = data.dataTip.value[tipIndex];
+
+                                            data4Tips[tipIndex] = tipValue;
+                                        }
+                                        markPoint.data = data4Tips;
+                                        markPoint.symbolSize = 20;
+                                        oneSeries.markPoint = markPoint;
+                                    }
+                                } catch (e) {
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                var yy_cws_all_rank = $!{result.get("yy_cws_all_rank")};
+                initTitleLegend(yy_cws_all_rank, lineOption);
+                initLineData(yy_cws_all_rank, lineOption);
+                firstLine.setOption(lineOption);
+
+                var yy_cws_province_rank = $!{result.get("yy_cws_province_rank")};
+                initTitleLegend(yy_cws_province_rank, lineOption);
+                initLineData(yy_cws_province_rank, lineOption);
+                secondLine.setOption(lineOption);
+
+                var yy_rmzl_all_rank = $!{result.get("yy_rmzl_all_rank")};
+                initTitleLegend(yy_rmzl_all_rank, lineOption);
+                initLineData(yy_rmzl_all_rank, lineOption);
+                thirdLine.setOption(lineOption);
+
+                var yy_rmzl_province_rank = $!{result.get("yy_rmzl_province_rank")};
+                initTitleLegend(yy_rmzl_province_rank, lineOption);
+                initLineData(yy_rmzl_province_rank, lineOption);
+                fourLine.setOption(lineOption);
+
+                function initPieData(data, option) {
+                    if (data && option) {
+                        if (data.series.data && data.series.data.length > 0) {
+                            option.series[0].data = data.series.data;
+                        }
+                    }
+                }
+
+                function initTitleLegend(data, option) {
+                    if (data) {
+                        if (data.title) {
+                            option.title.text = data.title.text;
+                        }
+                        if (data.legend) {
+                            var legenddata = data.legend.data;
+                            if (legenddata && legenddata.length > 0) {
+                                option.legend.data = [];
+                                option.legend.data = legenddata;
+                            }
+                        }
+                    }
+                }
+
+            }
+    );
+
+
+</script>
+

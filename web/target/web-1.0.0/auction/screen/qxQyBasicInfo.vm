@@ -1,0 +1,117 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:24px;color:#64a1d7;margin-top:20px;margin-bottom:30px;font-weight:blod;display:inline" >
+        医疗器械企业产品结构查询
+    </div>
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+    <h5>
+        <form class="form-inline" method="post" action="/web/qx/qxQyBasicInfo">
+            <div class="form-group">
+                <input  type="text" id="keyword" name="qym" class="form-control" value="$!{result.get("qymHidden")}" placeholder="Search..."
+                        style="width: 200px"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">查询</button>
+            </div>
+        </form>
+    </h5>
+
+
+    <div>
+        #if(${result.get("info")}==true)
+        ##    字体大小难以控制，因此在这里写死
+            <div class="table-responsive">
+                #set ($cnt=1)
+            ##    table-hover 浮动
+                <table class="table table-hover">
+                    <thead>
+                    <tr style="font-size: 14px;font-weight:blod;color:blue">
+                        <th>企业名称</th>
+                        <th>生产器械数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($param in $result.get("qxDOs"))
+                        <tr style="font-size: 10px">
+                            <td><a href="/web/qx/qxQyDetail?qym=$!{param.name}">$!{param.name}</a></td>
+                            <td>$!{param.val}</td>
+                        </tr>
+                            #set ($cnt=$cnt+1)
+                        #end
+                    </tbody>
+                </table>
+            </div>
+
+            #set ($prefix='/web/qx/qxQyBasicInfo?qym=')
+            #set ($name1 =$!{result.get("qymHidden")})
+            #set ($prefix="${prefix}$!{name1}")
+            #set ($pageBean=${result.get("pageBean")})
+
+            <div class="pagination pagination-centered">
+                <ul class="pagination">
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>首页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=1">首页</a></li>
+                    #end
+
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>«</a></li>
+                    #else
+                        <li><a href="$!{prefix}&pageNum=$pageBean.pre" class="active">«</a></li>
+                    #end
+
+
+                    #foreach($p in $pageBean.pages)
+                        #if($p==$pageBean.pageNum)
+                            <li class="disabled"><a>$p</a></li>
+                        #else
+                            <li><a href="${prefix}&pageNum=$p">$p</a></li>
+                        #end
+
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>»</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.next">»</a></li>
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>末页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.totalPage">末页</a></li>
+                    #end
+                </ul>
+            </div>
+        #end
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $("#keyword").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/web/medicine/getAssociation",
+                dataType: "jsonp",
+                data: {
+                    maxRows: 10,
+                    q: request.term,
+                    biz:'6'
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1
+    });
+</script>
+
+

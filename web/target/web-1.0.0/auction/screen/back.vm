@@ -1,0 +1,115 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+##    <h3><span class="label label-info">圈子管理</span></h3>
+    <ul class="nav nav-pills" role="tablist">
+        <li role="presentation"><a href="/web/bs/viewCircle">圈子<span class="badge">$!{result.get("circleNum")}</span></a></li>
+        <li role="presentation" class="active"><a href="/web/bs/view">新申请<span class="badge">$!{result.get("circleFlowNum")}</span></a>
+        </li>
+    </ul>
+
+
+    <h5>
+        <form class="form-inline" action="/web/bs/search" method="post">
+            <div class="form-group">
+                <span>圈子名称：</span><input class="form-control" type="text" name="circleName" value="$!{result.get("title")}"/>
+            </div>
+            <div class="form-group">
+                <span>创建人：</span><input class="form-control" type="text" name="owner" value="$!{result.get("owner")}"/>
+            </div>
+            <div class="form-group">
+                <span>规模：</span>
+                <select name="scale" class="form-control">
+                    <option value="99">所有规模</option>
+                    <option value="0" >1~99人</option>
+                    <option value="1" >100~199人</option>
+                    <option value="2" >200~299人</option>
+                    <option value="3" >300以上</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <span>状态：</span>
+                <select name="status" class="form-control">
+                    <option value="99">所有状态</option>
+                    <option value="0">待审核</option>
+                    <option value="1">正常</option>
+                    <option value="2">未通过</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="form-control"  type="hidden" name="tag" value="1"/>
+                <button type="submit" class="btn btn-sm btn-primary">查询圈子</button>
+            </div>
+                    </form>
+    </h5>
+
+
+
+##    字体大小难以控制，因此在这里写死
+    <div class="table-responsive">
+        #set ($cnt=1)
+    ##    table-hover 浮动
+        <table class="table table-hover">
+            <thead>
+            <tr style="font-size: 12px">
+                <th>序号</th>
+                <th>圈子名称</th>
+                <th>创建人</th>
+                <th>规模</th>
+                <th>状态</th>
+                <th>通知</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                #foreach($param in $result.get("circles"))
+                <tr style="font-size: 10px">
+                    <td>$cnt</td>
+                    <td>$!param.title</td>
+                    <td>$!param.accountName</td>
+                    <td>$!param.circlePeopleNum</td>
+                    #if ($!param.innerStatus==1)
+                        <td>已通过</td>
+                    #elseif ($!param.innerStatus==0)
+                        <td>待审核</td>
+                    #else
+                        <td>未通过</td>
+                    #end
+                    <td><a href="#">填写公告</a></td>
+                    #if ($!param.innerStatus == 0)
+                        <td>
+                            <div class="form-group">
+                                <div class="col-xs-2">
+                                    <form action="/web/bs/done" method="post">
+                                        <p>
+                                            <input type="text" name="userId" hidden="true" value="$!{param.userId}"/>
+                                            <input type="text" name="circleId" hidden="true" value="$!{param.circleId}"/>
+                                            <button type="submit" class="btn btn-sm btn-success">同意</button>
+                                        </p>
+                                    </form>
+                                </div>
+                                <div class="col-xs-2">
+                                    <form action="/web/bs/reject" method="post">
+                                        <p>
+                                            <input type="text" name="userId" hidden="true" value="$!{param.userId}"/>
+                                            <input type="text" name="circleId" hidden="true" value="$!{param.circleId}"/>
+                                            <button type="submit" class="btn btn-sm btn-danger">拒绝</button>
+                                        </p>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    #else
+                        <div class="form-group">
+                            <div class="col-xs-2">
+                                <td><span>-</span></td>
+                            </div>
+                        </div>
+                    #end
+                </tr>
+                    #set ($cnt=$cnt+1)
+                #end
+            </tbody>
+        </table>
+    </div>
+
+</div>

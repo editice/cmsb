@@ -1,0 +1,175 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:16px;color:#64a1d7;margin-top:10px;margin-bottom:10px;font-weight:blod">
+        $!result.get("qxm")
+    </div>
+
+    <div class="xian " style="width:1000px; margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+    <div>
+        <div>
+            产品基本信息：
+            <div style="font-size:12px;color:#64a1d7;margin-top:4px;margin-bottom:4px;font-weight:blod">
+                该品种共有医疗器械注册号：$!{result.get("zchCnt")}个，其中国产$!{result.get("gcCnt")}个，进口$!{result.get("jkCnt")}个；生产厂家$!{result.get("qyCnt")}个
+            </div>
+        </div>
+        <div>
+            产品适用范围：
+            <div style="font-size:12px;color:#64a1d7;margin-top:4px;margin-bottom:4px;font-weight:blod">
+                $!{result.get("scope")}
+            </div>
+        </div>
+        <div>
+            产品性能结构与组成：
+            <div style="font-size:12px;color:#64a1d7;margin-top:4px;margin-bottom:4px;font-weight:blod">
+
+                $!{result.get("psc")}
+            </div>
+        </div>
+
+    </div>
+    <div class="xian " style="width:1000px; margin-top:10px; border-top:1px solid #ddd"></div>
+
+    <div>
+
+        <div id="main" style="height:400px;margin-top:30px">
+        </div>
+
+    </div>
+    <div class="xian " style="width:1000px;margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+    <form role="form" method="post" action="/web/excel/qxBasicDetail">
+        <input type="hidden" id="cpmcHidden" name="qxm" value="$!{result.get("qxm")}"/>
+
+        <div clas="form-group">
+            <button type="submit" name="file" class="btn btn-sm btn-primary">导出</button>
+            <div>
+    </form>
+
+    <div>
+        <div class="table-responsive">
+            #set ($cnt=1)
+        ##    table-hover 浮动
+            <table class="table table-hover">
+                <thead>
+                <tr style="font-size: 14px;font-weight:blod">
+                    <th>药品名称</th>
+                    <th>生产企业</th>
+                    <th>进口/国产</th>
+                    <th>批准日期</th>
+                    <th>到期日期</th>
+                    <th>注册代理</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    #foreach($param in $result.get("qxBasicDetail"))
+                    <tr style="font-size: 10px">
+                        <td>$!{param.product_name}</td>
+                        <td>$!{param.product_company}</td>
+                        <td>$!{param.gj}</td>
+                        <td>$!{dateTool.format("MEDIUM", $param.approval_date)}</td>
+                        <td>$!{dateTool.format("MEDIUM", $param.validity_period)}</td>
+                        <td>$!{param.zcdl}</td>
+                    </tr>
+                        #set ($cnt=$cnt+1)
+                    #end
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: '/web/js/dist/'
+        }
+    });
+
+    // 使用
+    require([
+                'echarts',
+                'echarts/theme/macarons',
+                'echarts/chart/pie'
+            ],
+
+            function (ec) {
+                var pieChart = ec.init(document.getElementById('main'), 'macarons');
+                var pieOption = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+
+                    title: {
+                        text: "进口/国产占比",
+                        x: '40'
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        x : 'center',
+                        y : 'bottom',
+                        data: ['无相关数据']  //  legend数组
+                    },
+                    series: [
+                        {
+                            name: '剂型',
+                            type: 'pie',
+                            startAngle: 225,
+                            radius : ['0%', '70%'],
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        formatter: '{b}   {d}%'   //  '{b} : {c} ({d}%)'
+                                    },
+                                    labelLine: {
+                                        show: true
+                                    }
+                                }
+                            },
+                            data: [
+                                {value: 0, name: '无相关剂型'}
+                            ]
+                        }
+                    ]
+                };
+
+                var qx_from = $!{result.get("qx_from")};
+                initTitleLegend(qx_from, pieOption);
+                initPieData(qx_from, pieOption);
+                pieChart.setOption(pieOption);
+
+                function initPieData(data, option) {
+                    if (data && option) {
+                        if (data.series.data && data.series.data.length > 0) {
+                            option.series[0].data = data.series.data;
+                        }
+                    }
+                }
+
+                function initTitleLegend(data, option) {
+                    if (data) {
+                        if (data.title) {
+                            option.title.text = data.title.text;
+                        }
+                        if (data.legend) {
+                            var legenddata = data.legend.data;
+                            if (legenddata && legenddata.length > 0) {
+                                option.legend.data = [];
+                                option.legend.data = legenddata;
+                            }
+                        }
+                    }
+                }
+
+            }
+    );
+
+
+</script>
+

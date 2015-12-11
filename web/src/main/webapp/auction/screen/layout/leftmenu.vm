@@ -1,0 +1,15 @@
+<div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+        <li><a href="/web/medicine/basicInfo">+ 药品基本信息查询</a></li>
+        <li><a href="/web/medicine/powerInfo">+ 药品竞争力分析</a></li>
+        <li><a href="/web/medicine/qypw">+ 企业批文号查询</a></li>
+        <li><a href="/web/medicine/qyPowerInfo">+ 企业产品线竞争力分析</a></li>
+        <li><a href="/web/qx/qxBasicInfo">+ 医疗器械产品查询</a></li>
+        <li><a href="/web/qx/qxQyBasicInfo">+ 医疗器械企业产品结构查询</a></li>
+        <li><a href="/web/law/lawBasicInfo">+ 医药相关法律法规查询</a></li>
+        <li><a href="/web/law/rsBasicInfo">+ 行业研究报告查询</a></li>
+        <li><a href="/web/law/ypzcBasicInfo">+ 药品注册申报查询</a></li>
+        <li><a href="/web/law/yqzcBasicInfo">+ 药企注册申报查询</a></li>
+        <li><a href="/web/law/yyBasicInfo">+ 全国等级医院查询</a></li>
+    </ul>
+</div>

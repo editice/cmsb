@@ -1,0 +1,299 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:16px;color:#64a1d7;margin-top:10px;margin-bottom:10px;font-weight:blod">
+        $!result.get("ypmc")
+    </div>
+
+    <div class="xian " style="width:1000px; margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+    <div>
+
+        <div id="line" style="height:400px;margin-top:30px">
+        </div>
+
+        <div class="container" style="height:280px">
+            <div class="row">
+                <div id = "zc_yplx" style="height:280px" class="col-xs-4"> </div>
+                <div id = "zc_sqlx" style="height:280px" class="col-xs-4"> </div>
+            </div>
+        </div>
+
+        <div class="container" style="height:280px">
+            <div class="row">
+                <div id = "zc_zcfl" style="height:280px" class="col-xs-4"> </div>
+                <div id = "zc_pszt" style="height:280px" class="col-xs-4"> </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="xian " style="width:1000px;margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+    <div>
+        <div class="table-responsive">
+            #set ($cnt=1)
+            <table class="table table-hover">
+                <thead>
+                <tr style="font-size: 14px;font-weight:blod">
+                    <th>药品名称</th>
+                    <th>CDE状态</th>
+                    <th>审批状态</th>
+                    <th>CDE承办日期</th>
+                    <th>特殊审批品种</th>
+                    <th>进入序列时间</th>
+                    <th>离开序列时间</th>
+                    <th>当前排名</th>
+                    <th>排队总数</th>
+                    <th>CDE审批结论</th>
+                </tr>
+                </thead>
+                <tbody>
+                    #foreach($param in $result.get("basicInfos"))
+                    <tr style="font-size: 10px">
+                        <td>$!{param.cpmc}</td>
+                        <td>$!{param.cde_zt}</td>
+                        <td>$!{param.xb_pszt}</td>
+                        <td>$!{param.cde_cbrq}</td>
+                        <td>$!{param.tsps}</td>
+                        <td>$!{param.xb_jrsj}</td>
+                        <td>$!{param.xb_lksj}</td>
+                        <td>$!{param.xb_dqpm}</td>
+                        <td>$!{param.xb_pdzs}</td>
+                        <td>$!{param.cde_spjl}</td>
+                    </tr>
+                        #set ($cnt=$cnt+1)
+                    #end
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: '/web/js/dist/'
+        }
+    });
+
+    // 使用
+    require([
+                'echarts',
+                'echarts/theme/macarons',
+                'echarts/chart/line',
+                'echarts/chart/pie'
+            ],
+
+            function (ec) {
+
+                var lineChart = ec.init(document.getElementById('line'), 'macarons');
+
+                var firstPie = ec.init(document.getElementById('zc_yplx'), 'macarons');
+                var secondPie = ec.init(document.getElementById('zc_sqlx'), 'macarons');
+                var thirdPie = ec.init(document.getElementById('zc_zcfl'), 'macarons');
+                var fourPie = ec.init(document.getElementById('zc_pszt'), 'macarons');
+
+                var lineOption = {
+                    title : {
+                        show : true,
+                        text : "累计排序图",
+                        x : '40',
+                        textStyle : {
+                            fontSize: 18,
+                            fontWeight: 'bolder',
+                            color: '#333'
+                        }
+                    },
+                    tooltip: {
+                        show: true
+                    },
+                    legend: {
+                        x : '840',
+                        y : 'top',
+                        data: ['批文数量']
+                    },
+
+                    grid : {
+                        borderWidth : 0
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisLine : {
+                                show : false
+                            },
+                            axisTick : {
+                                show : false
+                            },
+                            splitLine : {
+                                show : false
+                            },
+
+                            data: ["第一", "第二", "第三", "第四", "第五", "第六", "第七", "第八", "第九", "第十", "十一", "十二"]
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            axisLine : {
+                                show : false,
+                                width : 0
+                            },
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            "stack" : "总量",  // 要堆积的同名
+                            "name": "批文数量",
+                            "type": "line",  // line  pie
+                            "data":  [270, 700, 500, 400, 680, 770, 600, 520, 550, 280, 760, 700],
+                            markPoint : {
+                                data : [
+                                    {name:'周最高', value:15, xAxis:'第一', yAxis:'300'}
+                                ]
+                            }
+                        }
+                    ]
+                };
+
+                function initLineData(data, option) {
+                    if(data && option) {
+                        if(data.xAxis && data.xAxis.data && data.xAxis.data.length > 0) {
+                            option.xAxis[0].data = data.xAxis.data;
+                        }
+                        if(data.series.data && data.series.data.length > 0) {
+                            option.series = [];
+                            for(var i = 0; i < data.series.data.length; i++) {
+                                var oneData = data.series.data[i];
+                                var oneSeries = {};
+                                oneSeries.type = 'line';
+                                oneSeries.stack = 'fl';
+                                oneSeries.data = oneData.data;
+                                oneSeries.name = oneData.name;
+                                option.series.push(oneSeries);
+
+                                try {
+                                    if(data.dataTip && data.dataTip.data.length > 0) { // 企业排名标注
+                                        var dataTipValues = data.dataTip.data;
+                                        var markPoint = {};
+                                        var data4Tips = [];
+                                        for( var tipIndex = 0; tipIndex < 1; tipIndex++) {
+                                            var tipValue = {};
+                                            tipValue.name = "批文数量排名 : " + dataTipValues[tipIndex] + "  " + " 批文数量";
+                                            tipValue.value = data.dataTip.value[tipIndex];
+                                            tipValue.xAxis = dataTipValues[tipIndex];
+                                            tipValue.yAxis = data.dataTip.value[tipIndex];
+
+                                            data4Tips[tipIndex] = tipValue;
+                                        }
+                                        markPoint.data = data4Tips;
+                                        markPoint.symbolSize = 20;
+                                        oneSeries.markPoint = markPoint;
+                                    }
+                                } catch (e) {
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                var lineData = $!{result.get("zc_power_rank")};
+                initTitleLegend(lineData, lineOption);
+                initLineData(lineData, lineOption);
+                lineChart.setOption(lineOption);
+
+                var pieOption = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+
+                    title: {
+                        text: "进口/国产占比",
+                        x: '40'
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        x : 'center',
+                        y : 'bottom',
+                        data: ['无相关数据']  //  legend数组
+                    },
+                    series: [
+                        {
+                            name: '剂型',
+                            type: 'pie',
+                            startAngle: 225,
+                            radius : ['0%', '70%'],
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        formatter: '{b}   {d}%'   //  '{b} : {c} ({d}%)'
+                                    },
+                                    labelLine: {
+                                        show: true
+                                    }
+                                }
+                            },
+                            data: [
+                                {value: 0, name: '无相关剂型'}
+                            ]
+                        }
+                    ]
+                };
+
+                var zc_yplx = $!{result.get("zc_yplx")};
+                initTitleLegend(zc_yplx, pieOption);
+                initPieData(zc_yplx, pieOption);
+                firstPie.setOption(pieOption);
+
+                var zc_sqlx = $!{result.get("zc_sqlx")};
+                initTitleLegend(zc_sqlx, pieOption);
+                initPieData(zc_sqlx, pieOption);
+                secondPie.setOption(pieOption);
+
+                var zc_zcfl = $!{result.get("zc_zcfl")};
+                initTitleLegend(zc_zcfl, pieOption);
+                initPieData(zc_zcfl, pieOption);
+                thirdPie.setOption(pieOption);
+
+                var zc_pszt = $!{result.get("zc_pszt")};
+                initTitleLegend(zc_pszt, pieOption);
+                initPieData(zc_pszt, pieOption);
+                fourPie.setOption(pieOption);
+
+
+                function initPieData(data, option) {
+                    if (data && option) {
+                        if (data.series.data && data.series.data.length > 0) {
+                            option.series[0].data = data.series.data;
+                        }
+                    }
+                }
+
+                function initTitleLegend(data, option) {
+                    if (data) {
+                        if (data.title) {
+                            option.title.text = data.title.text;
+                        }
+                        if (data.legend) {
+                            var legenddata = data.legend.data;
+                            if (legenddata && legenddata.length > 0) {
+                                option.legend.data = [];
+                                option.legend.data = legenddata;
+                            }
+                        }
+                    }
+                }
+
+            }
+    );
+
+
+</script>
+

@@ -1,0 +1,49 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    行业研究报告
+    <div class="xian " style="width:1000px; border-top:1px solid #ddd"></div>
+    <h5>
+        <form class="form-horizontal" method="post" enctype="multipart/form-data" action="/web/law/rsUpload">
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">报告标题</label>
+                <input type="text" id="keyword" name="title" class="form-control" placeholder="..."
+                       style="width: 200px"/>
+            </div>
+
+
+            <div class="form-group">
+                <label for="inputfile" class="col-sm-2 control-label">上传</label>
+
+                <div class="col-sm-6">
+                    <input type="file" id="inputfile" name="rsfile">
+
+                    <h5><p class="help-block">点击上传附件</p></h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">提交</button>
+            </div>
+        </form>
+    </h5>
+
+    <h5>
+        <form class="form-horizontal" method="post" action="/web/law/rsBasicInfo">
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">返回</button>
+            </div>
+        </form>
+    </h5>
+
+    #if(${result.get("res")}==true)
+        <div>
+            上传成功
+        </div>
+    #end
+
+</div>
+
+
+
+

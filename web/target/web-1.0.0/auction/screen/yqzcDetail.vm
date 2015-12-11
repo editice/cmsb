@@ -1,0 +1,190 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:16px;color:#64a1d7;margin-top:10px;margin-bottom:10px;font-weight:blod">
+        $!result.get("qym")
+    </div>
+
+    <div class="xian " style="width:1000px; margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+    <div>
+        基本信息：
+        <div style="font-size:12px;color:#64a1d7;margin-top:4px;margin-bottom:4px;font-weight:blod">
+            该企业的药品注册申报记录共：$!{result.get("cnt")}个
+        </div>
+    </div>
+
+    <div class="xian " style="width:1000px; margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+    <div>
+
+        <div class="container" style="height:280px">
+            <div class="row">
+                <div id = "zc_qy_yplx" style="height:280px" class="col-xs-4"> </div>
+                <div id = "zc_qy_sqlx" style="height:280px" class="col-xs-4"> </div>
+                <div id = "zc_qy_pszt" style="height:280px" class="col-xs-4"> </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <form role="form" method="post" action="/web/excel/qyZcDetail">
+        <input type="hidden" id="cpmcHidden" name="qym" value="$!{result.get("qym")}"/>
+
+        <div clas="form-group">
+            <button type="submit" name="file" class="btn btn-sm btn-primary">导出</button>
+            <div>
+    </form>
+
+    <div class="xian " style="width:1000px;margin-bottom:10px; border-top:1px solid #ddd"></div>
+
+
+    <div>
+        <div class="table-responsive">
+            #set ($cnt=1)
+        ##    table-hover 浮动
+            <table class="table table-hover">
+                <thead>
+                <tr style="font-size: 14px;font-weight:blod">
+                    <th>企业名称</th>
+                    <th>药品名称</th>
+                    <th>CDE状态</th>
+                    <th>审批状态</th>
+                    <th>CDE承办日期</th>
+                    <th>特殊审批品种</th>
+                    <th>进入序列时间</th>
+                    <th>离开序列时间</th>
+                    <th>当前排名</th>
+                    <th>排队总数</th>
+                    <th>CDE审批结论</th>
+                </tr>
+                </thead>
+                <tbody>
+                    #foreach($param in $result.get("basicInfos"))
+                    <tr style="font-size: 10px">
+                        <td>$!{param.scqy}</td>
+                        <td>$!{param.ypmc}</td>
+                        <td>$!{param.cde_zt}</td>
+                        <td>$!{param.xb_pszt}</td>
+                        <td>$!{param.cde_cbrq}</td>
+                        <td>$!{param.tsps}</td>
+                        <td>$!{param.xb_jrsj}</td>
+                        <td>$!{param.xb_lksj}</td>
+                        <td>$!{param.xb_dqpm}</td>
+                        <td>$!{param.xb_pdzs}</td>
+                        <td>$!{param.cde_spjl}</td>
+                    </tr>
+                        #set ($cnt=$cnt+1)
+                    #end
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: '/web/js/dist/'
+        }
+    });
+
+    // 使用
+    require([
+                'echarts',
+                'echarts/theme/macarons',
+                'echarts/chart/pie'
+            ],
+
+            function (ec) {
+                var firstPie = ec.init(document.getElementById('zc_qy_yplx'), 'macarons');
+                var secondPie = ec.init(document.getElementById('zc_qy_sqlx'), 'macarons');
+                var thirdPie = ec.init(document.getElementById('zc_qy_pszt'), 'macarons');
+
+                var pieOption = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+
+                    title: {
+                        text: "进口/国产占比",
+                        x: '40'
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        x : 'center',
+                        y : 'bottom',
+                        data: ['无相关数据']  //  legend数组
+                    },
+                    series: [
+                        {
+                            name: '剂型',
+                            type: 'pie',
+                            startAngle: 225,
+                            radius : ['0%', '70%'],
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        formatter: '{b}   {d}%'   //  '{b} : {c} ({d}%)'
+                                    },
+                                    labelLine: {
+                                        show: true
+                                    }
+                                }
+                            },
+                            data: [
+                                {value: 0, name: '无相关剂型'}
+                            ]
+                        }
+                    ]
+                };
+
+                var zc_qy_yplx = $!{result.get("zc_qy_yplx")};
+                initTitleLegend(zc_qy_yplx, pieOption);
+                initPieData(zc_qy_yplx, pieOption);
+                firstPie.setOption(pieOption);
+
+                var zc_qy_sqlx = $!{result.get("zc_qy_sqlx")};
+                initTitleLegend(zc_qy_sqlx, pieOption);
+                initPieData(zc_qy_sqlx, pieOption);
+                secondPie.setOption(pieOption);
+
+                var zc_qy_pszt = $!{result.get("zc_qy_pszt")};
+                initTitleLegend(zc_qy_pszt, pieOption);
+                initPieData(zc_qy_pszt, pieOption);
+                thirdPie.setOption(pieOption);
+
+                function initPieData(data, option) {
+                    if (data && option) {
+                        if (data.series.data && data.series.data.length > 0) {
+                            option.series[0].data = data.series.data;
+                        }
+                    }
+                }
+
+                function initTitleLegend(data, option) {
+                    if (data) {
+                        if (data.title) {
+                            option.title.text = data.title.text;
+                        }
+                        if (data.legend) {
+                            var legenddata = data.legend.data;
+                            if (legenddata && legenddata.length > 0) {
+                                option.legend.data = [];
+                                option.legend.data = legenddata;
+                            }
+                        }
+                    }
+                }
+
+            }
+    );
+
+
+</script>
+

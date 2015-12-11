@@ -1,0 +1,393 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size: 22px;margin-top:20px;margin-bottom:20px;font-weight:blod">
+        $!result.get("qym")
+    </div>
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" >
+
+    </div>
+
+
+
+
+        <div>
+
+            <form role="form" method="post" action="/web/excel/qyPowerDetail">
+                <input type="hidden" id="cpmcHidden" name="qym" value="$!{result.get("qym")}"/>
+
+                <div clas="form-group">
+                    <button type="submit" name="file" class="btn btn-sm btn-primary">导出</button>
+                    <div>
+            </form>
+            <div id="first" style="height:400px;margin-top:30px">
+            </div>
+
+
+
+                    <div>
+                        <div class="table-responsive">
+                            #set ($cnt=1)
+                            <table class="table table-hover">
+                                <thead>
+                                <tr style="font-size: 14px;font-weight:blod;color:blue">
+                                    <th>药品名</th>
+                                    <th>销售额（万元）</th>
+                                    <th>销售额占比</th>
+                                    <th>是否基药</th>
+                                    <th>医保情况</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach($param in $result.get("qyPowers"))
+                                    <tr style="font-size: 10px">
+                                        <td>$!{param.cpmc}</td>
+                                        <td>$!{param.getSaleStr()}</td>
+                                        <td>$!{param.percent}</td>
+                                        <td>$!{param.isJy}</td>
+                                        <td>$!{param.yibao}</td>
+                                    </tr>
+                                        #set ($cnt=$cnt+1)
+                                    #end
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+            <div id="second" style="height:400px">
+            </div>
+
+            <div class="container" style="height:280px">
+                <div class="row">
+                    <div id = "third_one" style="height:280px" class="col-xs-4"> </div>
+                    <div id = "third_two" style="height:280px" class="col-xs-4"> </div>
+                </div>
+
+            </div>
+
+            <div id="map" style="height:400px;top: 40px">
+            </div>
+
+            <form role="form" method="post" action="/web/excel/qyPowerSaleDetail">
+                <input type="hidden" id="cpmcHidden" name="qym" value="$!{result.get("qym")}"/>
+
+                <div clas="form-group">
+                    <button type="submit" name="file" class="btn btn-sm btn-primary">导出企业销售趋势</button>
+                    <div>
+            </form>
+            <div id="last_line" style="height:400px;top: 40px">
+            </div>
+
+        </div>
+
+</div>
+
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: '/web/js/dist/'
+        }
+    });
+
+    // 使用
+    require(            [
+                'echarts',
+                'echarts/theme/macarons',
+                'echarts/chart/bar',
+                'echarts/chart/line',
+                'echarts/chart/map',
+                'echarts/chart/pie'
+            ],
+
+            function (ec) {
+
+                var mapOption = {
+                    title : {
+                        text: '产品销售区域',
+                        x:'center'
+                    },
+                    dataRange: {
+                        min: 0,
+                        max: 2500,
+                        x: 'left',
+                        y: 'bottom',
+                        text:['高','低'],
+                        calculable : true
+                    },
+                    tooltip : {
+                        trigger: 'item'
+                    },
+                    series : [
+                        {
+                            name: '产品销售额',
+                            type: 'map',
+                            mapType: 'china',
+                            roam: true,
+                            itemStyle:{
+                                normal:{label:{show:true}},
+                                emphasis:{label:{show:true}}
+                            },
+                            data:[
+                                {name: '澳门',value: 0}
+                            ]
+                        }
+                    ]
+                };
+
+
+                var pieOption = {
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+
+                    title : {
+                        text : "产品销售占比",
+                        x : '40'
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        x : 'center',
+                        y : 'bottom',
+                        data:['无相关企业']  //  legend数组
+                    },
+                    series : [
+                        {
+                            name:'生产企业',
+                            type:'pie',
+                            startAngle : 225,
+                            radius : ['0%', '70%'],
+                            itemStyle : {
+                                normal : {
+                                    label : {
+                                        show : true,
+                                        formatter: '{b}   {d}%'   //  '{b} : {c} ({d}%)'
+                                    },
+                                    labelLine : {
+                                        show : true
+                                    }
+                                }
+                            },
+                            data:[
+                                {value:0, name:'无相关企业'}
+                            ]
+                        }
+                    ]
+                };
+
+                var lineOption = {
+                    title : {
+                        show : true,
+                        text : "销售地图",
+                        x : 'center',
+                        textStyle : {
+                            fontSize: 18,
+                            fontWeight: 'bolder',
+                            color: '#333'
+                        }
+                    },
+                    tooltip: {
+                        show: true
+                    },
+                    legend: {
+                        show: false,
+                        x : 'center',
+                        y : 'bottom',
+                        data: ['销售地域图']
+                    },
+
+                    grid : {
+                        borderWidth : 0
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisLine : {
+                                show : false
+                            },
+                            axisTick : {
+                                show : false
+                            },
+                            axisLabel : {
+                                rotate : -90
+                            },
+                            splitLine : {
+                                show : false
+                            },
+
+                            data: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            name : '销售额',
+                            type: 'value'
+                        },
+                        {
+                            type : 'value',
+                            name : '同比增长率',
+                            axisLabel : {
+                                formatter: '{value} %'
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            "name": "销售增长率",
+                            "type": "line",
+                            "data":  [270, 700, 500, 400, 680, 770, 600, 520, 550, 280, 760, 700],
+                            "markPoint" : { // 标注
+                                "effect" : {
+                                    show : false
+                                },
+                                "data" : [
+                                    {name: '同比增长率', value: 270, xAxis: 1, yAxis: 270}
+                                ]
+                            }
+                        }
+                    ]
+                };
+
+
+                var serchdiv = document.getElementById('cpmcHidden');
+                var serchValue = serchdiv.value;
+
+
+                var firstPieXiaoShow = ec.init(document.getElementById('first'), 'macarons');
+                var qypower_cpPie = $!{result.get("qypower_cpPie")};
+                initTitleLegend(qypower_cpPie, pieOption);
+                initPieData(qypower_cpPie, pieOption);
+                firstPieXiaoShow.setOption(pieOption);
+
+
+                var secondPieZhiLiaoShow = ec.init(document.getElementById('second'), 'macarons');
+                var qypower_zlPie = $!{result.get("qypower_zlPie")};
+                initTitleLegend(qypower_zlPie, pieOption);
+                initPieData(qypower_zlPie, pieOption);
+                secondPieZhiLiaoShow.setOption(pieOption);
+
+                var third_one = ec.init(document.getElementById('third_one'), 'macarons');
+                var qypower_jyPie = $!{result.get("qypower_jyPie")};
+                initTitleLegend(qypower_jyPie, pieOption);
+                initPieData(qypower_jyPie, pieOption);
+                third_one.setOption(pieOption);
+
+                var third_two = ec.init(document.getElementById('third_two'), 'macarons');
+                var qypower_ybPie = $!{result.get("qypower_ybPie")};
+                initTitleLegend(qypower_ybPie, pieOption);
+                initPieData(qypower_ybPie, pieOption);
+                third_two.setOption(pieOption);
+
+                // 删除
+##                var third_three = ec.init(document.getElementById('third_three'));
+##                var qypower_otcPie = $!{result.get("qypower_otcPie")};
+##                initTitleLegend(qypower_otcPie, pieOption);
+##                initPieData(qypower_otcPie, pieOption);
+##                third_three.setOption(pieOption);
+
+                // TODO   地图
+
+                var map = ec.init(document.getElementById('map'), 'macarons');
+                var qypower_salezone = $!{result.get("qypower_salezone")};
+                initTitleLegend(qypower_salezone, mapOption);
+                initMapData(qypower_salezone, mapOption);
+                map.setOption(mapOption);
+
+                var last_line = ec.init(document.getElementById('last_line'), 'macarons');
+                var qypower_saleline = $!{result.get("qypower_saleline")};
+                initTitleLegend(qypower_saleline, lineOption);
+                initLineData(qypower_saleline, lineOption);
+                last_line.setOption(lineOption);
+
+                function initPieData(data, option) {
+                    if(data && option) {
+                        if(data.series.data && data.series.data.length > 0) {
+                            option.series[0].data = data.series.data;
+                        }
+                    }
+                }
+
+                function initMapData(data, option) {
+                    if(data && option) {
+                        var maxValue = 0;
+                        if(data.series.data && data.series.data.length > 0) {
+                            var seriesData = data.series.data;
+                            option.series[0].data = seriesData;
+
+                            for(var i = 0; i < seriesData.length; i++) {
+                                maxValue = Math.max(maxValue, seriesData[i].value);
+                            }
+
+                            if(option.dataRange && maxValue > 0) {
+                                option.dataRange.max = maxValue;
+                            }
+                        }
+                    }
+                }
+
+                function initLineData(chartdata, option) {
+                    if(chartdata && option) {
+                        if(chartdata.xAxis && chartdata.xAxis.data && chartdata.xAxis.data.length > 0) {
+                            option.xAxis[0].data = chartdata.xAxis.data;
+                        }
+                        if(chartdata.series.data && chartdata.series.data.length > 0) {
+                            option.series = [];
+                            for(var i = 0; i < chartdata.series.data.length; i++) {
+                                var oneData = chartdata.series.data[i];
+                                var oneSeries = {};
+
+                                oneSeries.type = 'bar';
+                                oneSeries.data = oneData.data;
+                                oneSeries.name = oneData.name;
+                                oneSeries.barWidth = 30;
+                                option.series.push(oneSeries);
+                            }
+
+                            if(chartdata.dataTip && chartdata.dataTip.data.length > 0) { // 增长率
+                                var oneData = chartdata.dataTip.data;
+                                var newData = [];
+                                if(oneData && oneData.length > 0) {
+                                    for(var i = 0; i < oneData.length; i++) {
+                                        var tmpData = oneData[i];
+                                        if(tmpData) {
+                                            newData[i] = tmpData.replace("%", "");
+                                        } else {
+                                            newData[i] = 0;
+                                        }
+                                    }
+                                }
+                                var oneSeries = {};
+                                oneSeries.type = 'line';
+                                oneSeries.yAxisIndex = 1;
+                                oneSeries.data = newData;
+                                oneSeries.name = "同比增长率";
+
+                                option.series.push(oneSeries);
+                            }
+                        }
+                    }
+                }
+
+                function initTitleLegend(data, option) {
+                    if(data) {
+                        if(data.title) {
+                            option.title.text = data.title.text;
+                        }
+                        if(data.legend) {
+                            var legenddata = data.legend.data;
+                            if(legenddata && legenddata.length > 0) {
+                                option.legend.data = [];
+                                option.legend.data = legenddata;
+                            }
+                        }
+                    }
+                }
+
+            }
+    );
+
+
+</script>
+

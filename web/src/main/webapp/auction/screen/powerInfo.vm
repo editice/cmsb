@@ -1,0 +1,142 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <input type="hidden" id="cpmcHidden" name="cpmcHidden" value="$!{result.get("cpmcHidden")}" />
+
+    <div style="font-size:24px;color:#64a1d7;margin-top:20px;margin-bottom:30px;font-weight:blod;display:inline" >
+        药品竞争力分析
+    </div>
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+
+
+    <h5>
+        <form class="form-inline" method="post" action="/web/medicine/powerInfo">
+
+            <div class="form-group">
+                <input  type="text" id="keyword" name="cpmc" value="$!{result.get("cpmcHidden")}" class="form-control" placeholder="Search..."
+                        style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">查询</button>
+            </div>
+        </form>
+    </h5>
+
+
+    <div>
+
+        #if(${result.get("info")}==true)
+        ##    字体大小难以控制，因此在这里写死
+            <div class="table-responsive">
+                #set ($cnt=1)
+            ##    table-hover 浮动
+                <table class="table table-hover">
+                    <thead>
+                    <tr style="font-size: 14px;font-weight:blod;color:blue">
+                        <th>药品名称</th>
+                        <th>通用名</th>
+                        <th >治疗疾病</th>
+                        <th>是否基药</th>
+                        <th>医保类型</th>
+                        <th>OTC</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($param in $result.get("ypPower"))
+                        <tr style="font-size: 10px">
+                            <td>$!{param.cnName}</td>
+                            <td>$!{param.tym}</td>
+                            <td>$!{param.disease}</td>
+                            #set ($jb ="y")
+                            #if($!{param.isJbyw}==true)
+                                <td>是</td>
+                            #else
+                                #set(   $jb="f")
+                                <td>否</td>
+                            #end
+                            <td>$!{param.ybfl}</td>
+                            <td>$!{param.otc}</td>
+                            #set ($str="&isJbyw=$!{jb}&disease=$!{param.disease}&tym=$!{param.tym}&ybfl=$!{param.ybfl}&otc=$!{param.otc}&zldl=$!{param.zldl}&zlxl=$!{param.zlxl}")
+                            <td><a href="/web/medicine/powerDetail?cpmc=$!{param.cnName}${str}">查看详情</a></td>
+
+                        </tr>
+                            #set ($cnt=$cnt+1)
+                        #end
+                    </tbody>
+                </table>
+            </div>
+
+            #set ($prefix='/web/medicine/powerInfo?cpmc=')
+            #set ($name1 =$!{result.get("cpmcHidden")})
+            #set ($prefix="${prefix}$!{name1}")
+            #set ($pageBean=${result.get("pageBean")})
+
+            <div class="pagination pagination-centered">
+                <ul class="pagination">
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>首页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=1">首页</a></li>
+                    #end
+
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>«</a></li>
+                    #else
+                        <li><a href="$!{prefix}&pageNum=$pageBean.pre" class="active">«</a></li>
+                    #end
+
+
+                    #foreach($p in $pageBean.pages)
+                        #if($p==$pageBean.pageNum)
+                            <li class="disabled"><a>$p</a></li>
+                        #else
+                            <li><a href="${prefix}&pageNum=$p">$p</a></li>
+                        #end
+
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>»</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.next">»</a></li>
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>末页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.totalPage">末页</a></li>
+                    #end
+                </ul>
+            </div>
+        #end
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $("#keyword").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/web/medicine/getAssociation",
+                dataType: "jsonp",
+                data: {
+                    maxRows: 10,
+                    q: request.term,
+                    biz:'2'
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1
+    });
+</script>
+
+

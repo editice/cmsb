@@ -1,0 +1,36 @@
+#set($layout="layout/empty.vm")
+
+##    字体大小难以控制，因此在这里写死
+<div class="table-responsive">
+    #set ($cnt=1)
+##    table-hover 浮动
+    <table class="table table-hover">
+        <thead>
+        <tr style="font-size: 14px;font-weight:blod;color:blue">
+            <th>批准文号</th>
+            <th>中文产品名称</th>
+            <th>英文产品名称</th>
+            <th>商品名</th>
+            <th>产品类型</th>
+            <th>剂型</th>
+            <th>生产单位</th>
+            <th>国产/进口</th>
+        </tr>
+        </thead>
+        <tbody>
+            #foreach($param in $result.get("pzwh"))
+            <tr style="font-size: 10px">
+                <td>$!{param.pzwh}</td>
+                <td>$!{param.cpmc_ch}</td>
+                <td>$!{param.cpmhc_en}</td>
+                <td>$!{param.spm}</td>
+                <td>$!{param.cplx}</td>
+                <td>$!{param.jx}</td>
+                <td>$!{param.scdw}</td>
+                <td>$!{param.gj}</td>
+            </tr>
+                #set ($cnt=$cnt+1)
+            #end
+        </tbody>
+    </table>
+</div>

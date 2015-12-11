@@ -1,0 +1,153 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+        <input type="hidden" id="cpmcHidden" name="cpmcHidden" value="$!{result.get("cpmcHidden")}" />
+
+        <div style="font-size:24px;color:#64a1d7;margin-top:20px;margin-bottom:30px;font-weight:blod;display:inline" >
+            药品基本信息查询
+        </div>
+
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+
+    <h5>
+        <form class="form-inline" method="post" action="/web/medicine/basicInfo">
+
+
+            <div class="form-group">
+                <input  type="text" id="keyword" name="cpmc" value="$!{result.get("cpmcHidden")}" class="form-control" placeholder="Search..."
+                        style="width: 200px" />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">查询</button>
+            </div>
+        </form>
+    </h5>
+
+    <div>
+
+        #if(${result.get("info")}==true)
+        ##    字体大小难以控制，因此在这里写死
+            <div class="table-responsive">
+                #set ($cnt=1)
+            ##    table-hover 浮动
+                <table class="table table-hover">
+                    <thead>
+                    <tr style="font-size: 14px;font-weight:blod;color:blue">
+                        <th>中文药品名称</th>
+                        <th>英文药品名称</th>
+                        <th>是否基础药物</th>
+                        <th>是否医保药物</th>
+                        <th>持有批文厂家</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($param in $result.get("ypBasic"))
+                        <tr style="font-size: 10px">
+                            <td>$!{param.cnName}</td>
+                            <td>$!{param.enName}</td>
+
+                            #set ($jb ="y")
+                            #if($!{param.isJbyw}==true)
+                                <td>是</td>
+                            #else
+                                #set(   $jb="f")
+                                <td>否</td>
+                            #end
+                            #set ($yb ="y")
+                            #if($!{param.isYbyw}==true)
+                                <td>是</td>
+                            #else
+                                #set(   $yb="f")
+                                <td>否</td>
+                            #end
+
+                            <td>$!{param.pwCj}</td>
+                            #set ($str="&isJbyw=$!{jb}&isYbyw=$!{yb}&pwcj=$!{param.pwCj}")
+                            #if(${result.get("isEn")}==true)
+                                <td><a href="/web/medicine/basicDetail?cpmc=$!{param.enName}${str}">查看详情</a></td>
+                            #else
+                                <td><a href="/web/medicine/basicDetail?cpmc=$!{param.cnName}${str}">查看详情</a></td>
+                            #end
+
+                        </tr>
+                            #set ($cnt=$cnt+1)
+                        #end
+                    </tbody>
+                </table>
+            </div>
+
+            #set ($prefix='/web/medicine/basicInfo?cpmc=')
+            #set ($name1 =$!{result.get("cpmcHidden")})
+            #set ($prefix="${prefix}$!{name1}")
+            #set ($pageBean=${result.get("pageBean")})
+
+            <div class="pagination pagination-centered">
+                <ul class="pagination">
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>首页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=1">首页</a></li>
+                    #end
+
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>«</a></li>
+                    #else
+                        <li><a href="$!{prefix}&pageNum=$pageBean.pre" class="active">«</a></li>
+                    #end
+
+
+                    #foreach($p in $pageBean.pages)
+                        #if($p==$pageBean.pageNum)
+                            <li class="disabled"><a>$p</a></li>
+                        #else
+                            <li><a href="${prefix}&pageNum=$p">$p</a></li>
+                        #end
+
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>»</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.next">»</a></li>
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>末页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.totalPage">末页</a></li>
+                    #end
+                </ul>
+            </div>
+
+             #end
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $("#keyword").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/web/medicine/getAssociation",
+                dataType: "jsonp",
+                data: {
+                    maxRows: 10,
+                    q: request.term,
+                    biz:'1'
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1
+    });
+</script>
+
+

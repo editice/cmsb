@@ -1,0 +1,199 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:24px;color:#64a1d7;margin-top:20px;margin-bottom:30px;font-weight:blod;display:inline" >
+        医药相关法律法规查询
+    </div>
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+    <h5>
+        <form class="form-horizontal" method="post" action="/web/law/lawBasicInfo?pageNum=1">
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">法规标题</label>
+                <input  type="text" id="keyword" name="title" class="form-control" placeholder="..."
+                        style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">正文查询</label>
+                <input  type="text" id="keyword" name="content" class="form-control" placeholder=""
+                        style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="dtp_input1" class="col-md-2 control-label">发布日期</label>
+                <div class="input-group date form_date col-md-3" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input1" name="time" value="" /><br/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">效力级别</label>
+                <div style="width: 200px;float:left">
+                    <select name="level" class="form-control">
+                        <option value="0" >--请选类型--</option>
+                        <option value="1" >法律行政法规</option>
+                        <option value="2" >部门规章</option>
+                        <option value="3" >地方性法规和规章</option>
+                        <option value="4" >部门规范性文件</option>
+                        <option value="5" >政策解读</option>
+                        <option value="6" >指导原则</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">时效性</label>
+                <div style="width: 200px;float:left">
+                    <select name="time_range" class="form-control">
+                        <option value="0" >--请选类型--</option>
+                        <option value="1" >征求意见稿</option>
+                        <option value="2" >现行有效</option>
+                        <option value="3" >已失效</option>
+                        <option value="4" >已废止</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">发布部门</label>
+                <div style="width: 200px;float:left">
+                    <select name="department" class="form-control">
+                        <option value="0" >--请选类型--</option>
+                        <option value="1" >FDA</option>
+                        <option value="2" >中华人民共和国国家卫生和计划生育委员会</option>
+                        <option value="3" >国家食品药品监督管理总局</option>
+                        <option value="4" >国家食品药品监督管理总局药品审批中心</option>
+                        <option value="5" >欧盟EMEA</option>
+                        <option value="6" >CDE电子刊物</option>
+                        <option value="7" >国家发展和改革委员会</option>
+                        <option value="8" >国家中医药管理局</option>
+                    </select>
+                </div>
+            </div>
+
+        </form>
+    </h5>
+
+    <div class="form-group">
+        <button type="submit" name="file" class="btn btn-sm btn-primary">查询</button>
+    </div>
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+
+    <h5>
+        <form class="form-horizontal" method="post" action="/web/law/lawUpload">
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">上传新法规</button>
+            </div>
+        </form>
+    </h5>
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+
+    <div>
+        #if(${result.get("info")}==true)
+        ##    字体大小难以控制，因此在这里写死
+            <div class="table-responsive">
+                #set ($cnt=1)
+            ##    table-hover 浮动
+                <table class="table table-hover">
+                    <thead>
+                    <tr style="font-size: 14px;font-weight:blod;color:blue">
+                        <th>法规标题</th>
+                        <th>发布日期</th>
+                        <th>时效性</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($param in $result.get("lawDatas"))
+                        <tr style="font-size: 10px">
+                            <td>$!{param.title}</td>
+                            <td>$!{param.time}</td>
+                            <td>$!{param.time_range_desc}</td>
+                            <td><a href="/web/excel/downloadLaw?id=$!{param.id}">下载</a></td>
+                        </tr>
+                            #set ($cnt=$cnt+1)
+                        #end
+                    </tbody>
+                </table>
+            </div>
+
+            #set ($prefix='/web/law/lawBasicInfo?title=')
+            #set ($name1 =$!{result.get("title")})
+            #set ($name2 =$!{result.get("content")})
+            #set ($name3 =$!{result.get("time")})
+            #set ($name4 =$!{result.get("level")})
+            #set ($name5 =$!{result.get("time_range")})
+            #set ($name6 =$!{result.get("department")})
+            #set ($prefix="${prefix}$!{name1}&title=${name1}&content=${name2}&time=${name3}&level=${name4}&time_range=${name5}&department=${name6}")
+            #set ($pageBean=${result.get("pageBean")})
+
+            <div class="pagination pagination-centered">
+                <ul class="pagination">
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>首页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=1">首页</a></li>
+                    #end
+
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>«</a></li>
+                    #else
+                        <li><a href="$!{prefix}&pageNum=$pageBean.pre" class="active">«</a></li>
+                    #end
+
+
+                    #foreach($p in $pageBean.pages)
+                        #if($p==$pageBean.pageNum)
+                            <li class="disabled"><a>$p</a></li>
+                        #else
+                            <li><a href="${prefix}&pageNum=$p">$p</a></li>
+                        #end
+
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>»</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.next">»</a></li>
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>末页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.totalPage">末页</a></li>
+                    #end
+                </ul>
+            </div>
+        #end
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+
+</script>
+
+
+

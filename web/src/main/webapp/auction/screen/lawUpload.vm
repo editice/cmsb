@@ -1,0 +1,125 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:24px;color:#64a1d7;margin-top:20px;margin-bottom:30px;font-weight:blod;display:inline" >
+        上传法律法规
+    </div>
+    <div class="xian " style="width:1000px; border-top:1px solid #ddd"></div>
+    <h5>
+        <form class="form-horizontal" method="post" enctype="multipart/form-data" action="/web/law/lawUpload">
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">法规标题</label>
+                <input type="text" id="keyword" name="title" class="form-control" placeholder="..."
+                       style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="dtp_input1" class="col-md-2 control-label">发布日期</label>
+                <div class="input-group date form_date col-md-3" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input1" name="time" value="" /><br/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">效力级别</label>
+
+                <div class="col-sm-3">
+                    <select name="level" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">法律行政法规</option>
+                        <option value="2">部门规章</option>
+                        <option value="3">地方性法规和规章</option>
+                        <option value="4">部门规范性文件</option>
+                        <option value="5">政策解读</option>
+                        <option value="6">指导原则</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">时效性</label>
+
+                <div class="col-sm-3">
+                    <select name="time_range" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">征求意见稿</option>
+                        <option value="2">现行有效</option>
+                        <option value="3">已失效</option>
+                        <option value="4">已废止</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">发布部门</label>
+
+                <div class="col-sm-3">
+                    <select name="department" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">FDA</option>
+                        <option value="2">中华人民共和国国家卫生和计划生育委员会</option>
+                        <option value="3">国家食品药品监督管理总局</option>
+                        <option value="4">国家食品药品监督管理总局药品审批中心</option>
+                        <option value="5">欧盟EMEA</option>
+                        <option value="6">CDE电子刊物</option>
+                        <option value="7">国家发展和改革委员会</option>
+                        <option value="8">国家中医药管理局</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputfile" class="col-sm-2 control-label">上传</label>
+
+                <div class="col-sm-6">
+                    <input type="file" id="inputfile" name="lawfile">
+
+                    <h5><p class="help-block">点击上传附件</p></h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">提交</button>
+            </div>
+        </form>
+    </h5>
+
+    <h5>
+        <form class="form-horizontal" method="post" action="/web/law/lawBasicInfo">
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">返回</button>
+            </div>
+        </form>
+    </h5>
+
+    #if(${result.get("res")}==true)
+        <div>
+            上传成功
+        </div>
+    #end
+
+</div>
+
+<script type="text/javascript">
+
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+
+</script>
+
+
+
+
+

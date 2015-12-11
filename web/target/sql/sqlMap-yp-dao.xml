@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+
+    <typeAlias alias="gcypDO" type="com.hj.dal.domain.dataobject.SfdaGcypDO"/>
+    <typeAlias alias="jbywDO" type="com.hj.dal.domain.dataobject.SfdaJbywDO"/>
+    <typeAlias alias="jkypDO" type="com.hj.dal.domain.dataobject.SfdaJkypDO"/>
+    <typeAlias alias="ybywDO" type="com.hj.dal.domain.dataobject.MenetYibaoDO"/>
+    <typeAlias alias="cmsbDO" type="com.hj.dal.domain.dataobject.CMSBDO"/>
+    <typeAlias alias="jcxxDO" type="com.hj.dal.domain.dataobject.XywyJcxxDO"/>
+    <typeAlias alias="saleDO" type="com.hj.dal.domain.dataobject.YgyZdcsSaleDO"/>
+    <typeAlias alias="qySale" type="com.hj.dal.domain.dataobject.SaleDO"/>
+    <typeAlias alias="ParamMap" type="com.hj.dal.util.IbatisParamMap"/>
+    <resultMap id="cmsb" class="cmsbDO">
+        <result property="bname" column="bname" jdbcType="VARCHAR"/>
+        <result property="cnt" column="cnt" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="qyxse" class="qySale">
+        <result property="qyName" column="bname" jdbcType="VARCHAR"/>
+        <result property="xse" column="xse" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="gcyp" class="gcypDO">
+        <result property="ID" column="ID" jdbcType="BIGINT"/>
+        <result property="ROWKEY" column="ROWKEY" jdbcType="VARCHAR"/>
+        <result property="relate_database_query" column="relate_database_query" jdbcType="VARCHAR"/>
+        <result property="pzrq" column="pzrq" jdbcType="DATETIME"/>
+        <result property="jx" column="jx" jdbcType="VARCHAR"/>
+        <result property="medicine_standardcode_remarks" column="medicine_standardcode_remarks" jdbcType="VARCHAR"/>
+        <result property="cpmc_en" column="cpmc_en" jdbcType="VARCHAR"/>
+        <result property="ypzwh" column="ypzwh" jdbcType="VARCHAR"/>
+        <result property="pzwh" column="pzwh" jdbcType="VARCHAR"/>
+        <result property="scdw" column="scdw" jdbcType="VARCHAR"/>
+        <result property="scdz" column="scdz" jdbcType="VARCHAR"/>
+        <result property="cpmc_ch" column="cpmc_ch" jdbcType="VARCHAR"/>
+        <result property="ypbwm" column="ypbwm" jdbcType="VARCHAR"/>
+        <result property="gg" column="gg" jdbcType="VARCHAR"/>
+        <result property="cplb" column="cplb" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="spm" column="spm" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="jbyw" class="jbywDO">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="ROWKEY" column="ROWKEY" jdbcType="VARCHAR"/>
+        <result property="lb_2" column="lb_2" jdbcType="VARCHAR"/>
+        <result property="lb_3" column="lb_3" jdbcType="VARCAHR"/>
+        <result property="cpmc" column="cpmc" jdbcType="VARCAHR"/>
+        <result property="dosage_desc" column="dosage_desc" jdbcType="VARCAHR"/>
+        <result property="cpmc_en" column="cpmc_en" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="jx" column="jx" jdbcType="VARCHAR"/>
+        <result property="lb_1" column="lb_1" jdbcType="VARCHAR"/>
+        <result property="bz" column="bz" jdbcType="VARCHAR"/>
+        <result property="use_range" column="use_range" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="jkyp" class="jkypDO">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="ROWKEY" column="ROWKEY" jdbcType="VARCHAR"/>
+        <result property="bzgg" column="bzgg" jdbcType="VARCHAR"/>
+        <result property="cpmc_en" column="cpmc_en" jdbcType="VARCHAR"/>
+        <result property="sccs_en" column="sccs_en" jdbcType="VARCHAR"/>
+        <result property="gsdz_cn" column="gsdz_cn" jdbcType="VARCHAR"/>
+        <result property="cpmc_ch" column="cpmc_ch" jdbcType="VARCHAR"/>
+        <result property="ypbwmbz" column="ypbwmbz" jdbcType="VARCHAR"/>
+        <result property="csgjdq_en" column="csgjdq_en" jdbcType="VARCHAR"/>
+        <result property="fbzqydz" column="fbzqydz" jdbcType="VARCHAR"/>
+        <result property="zczhbz" column="zczhbz" jdbcType="VARCHAR"/>
+        <result property="spm_cn" column="spm_cn" jdbcType="VARCHAR"/>
+        <result property="sccs_cn" column="sccs_cn" jdbcType="VARCHAR"/>
+        <result property="csdz_en" column="csdz_en" jdbcType="VARCHAR"/>
+         <result property="yxqjzr" column="yxqjzr" jdbcType="DATETIME"/>
+        <result property="related_database_query" column="related_database_query" jdbcType="VARCHAR"/>
+        <result property="yzczh" column="yzczh" jdbcType="VARCHAR"/>
+        <result property="gsmc_en" column="gsmc_en" jdbcType="VARCHAR"/>
+        <result property="fbzwhyxqjzr" column="fbzwhyxqjzr" jdbcType="VARCHAR"/>
+        <result property="fzrq" column="fzrq" jdbcType="VARCHAR"/>
+        <result property="jx" column="jx" jdbcType="VARCHAR"/>
+        <result property="zczh" column="zczh" jdbcType="VARCHAR"/>
+        <result property="csgjdq_cn" column="csgjdq_cn" jdbcType="VARCHAR"/>
+        <result property="gg" column="gg" jdbcType="VARCHAR"/>
+        <result property="fbzwhpzrq" column="fbzwhpzrq" jdbcType="VARCHAR"/>
+        <result property="spm_en" column="spm_en" jdbcType="VARCHAR"/>
+        <result property="csdz_cn" column="csdz_cn" jdbcType="VARCHAR"/>
+        <result property="ypbwm" column="ypbwm" jdbcType="VARCHAR"/>
+        <result property="fbzqymc" column="fbzqymc" jdbcType="VARCHAR"/>
+        <result property="gjdq_cn" column="gjdq_cn" jdbcType="VARCHAR"/>
+        <result property="gjdq_en" column="gjdq_en" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="yplb" column="yplb" jdbcType="VARCHAR"/>
+        <result property="gsmc_cn" column="gsmc_cn" jdbcType="VARCHAR"/>
+        <result property="fbzpzwh" column="fbzpzwh" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ybyw" class="ybywDO">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="ROWKEY" column="ROWKEY" jdbcType="VARCHAR"/>
+        <result property="_xx" column="_xx" jdbcType="VARCHAR"/>
+        <result property="ypmc" column="ypmc" jdbcType="VARCHAR"/>
+        <result property="_qy" column="_qy" jdbcType="VARCHAR"/>
+        <result property="lb" column="lb" jdbcType="VARCHAR"/>
+        <result property="ybfl" column="ybfl" jdbcType="VARCHAR"/>
+        <result property="jx" column="jx" jdbcType="VARCHAR"/>
+        <result property="zldl" column="zldl" jdbcType="VARCHAR"/>
+        <result property="zlzl" column="zlzl" jdbcType="VARCHAR"/>
+        <result property="detailUrl" column="detailUrl" jdbcType="VARCHAR"/>
+        <result property="qy" column="qy" jdbcType="VARCHAR"/>
+        <result property="_jx" column="_jx" jdbcType="VARCHAR"/>
+        <result property="_xzsyfw" column="_xzsyfw" jdbcType="VARCHAR"/>
+        <result property="_ypmc" column="_ypmc" jdbcType="VARCHAR"/>
+        <result property="_dl" column="_dl" jdbcType="VARCHAR"/>
+        <result property="_jyfl" column="_jyfl" jdbcType="VARCHAR"/>
+        <result property="ypmc_en" column="ypmc_en" jdbcType="VARCHAR"/>
+        <result property="_yl" column="_yl" jdbcType="VARCHAR"/>
+        <result property="_ypfl" column="_ypfl" jdbcType="VARCHAR"/>
+        <result property="zlxl" column="zlxl" jdbcType="VARCHAR"/>
+        <result property="f21" column="f21" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="jcxx" class="jcxxDO">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="pzwh" column="pzwh" jdbcType="VARCHAR"/>
+        <result property="cpmc" column="cpmc" jdbcType="VARCHAR"/>
+        <result property="tym" column="tym" jdbcType="VARCHAR"/>
+        <result property="cplb" column="cplb" jdbcType="VARCHAR"/>
+        <result property="cd" column="cd" jdbcType="VARCHAR"/>
+        <result property="xslb" column="xslb" jdbcType="VARCHAR"/>
+        <result property="yblb" column="yblb" jdbcType="VARCHAR"/>
+        <result property="zldl" column="zldl" jdbcType="VARCHAR"/>
+        <result property="zlxl" column="zlxl" jdbcType="VARCHAR"/>
+        <result property="scqy" column="scqy" jdbcType="VARCHAR"/>
+        <result property="xgjb" column="xgjb" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="sale" class="saleDO">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="ROWKEY" column="ROWKEY" jdbcType="VARCHAR"/>
+        <result property="jx" column="jx" jdbcType="VARCHAR"/>
+        <result property="zldl_2" column="zldl_2" jdbcType="VARCHAR"/>
+        <result property="bz" column="bz" jdbcType="VARCHAR"/>
+        <result property="dbz" column="dbz" jdbcType="VARCHAR"/>
+        <result property="cpmc_ch" column="cpmc_ch" jdbcType="VARCHAR"/>
+        <result property="sl" column="sl" jdbcType="VARCHAR"/>
+        <result property="xse" column="xse" jdbcType="VARCHAR"/>
+        <result property="qymc" column="qymc" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="year" column="year" jdbcType="VARCHAR"/>
+        <result property="zldl_1" column="zldl_1" jdbcType="VARCHAR"/>
+        <result property="gg" column="gg" jdbcType="VARCHAR"/>
+        <result property="jd" column="jd" jdbcType="VARCHAR"/>
+        <result property="yytj" column="yytj" jdbcType="VARCHAR"/>
+        <result property="f16" column="f16" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="yp.qSearch" parameterClass="ParamMap" resultClass="java.lang.String">
+        <![CDATA[
+         select bname from cmsb_yp_name where bname like concat(#qStr#,'%') ORDER BY LENGTH(bname)
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.qSearchSale" parameterClass="ParamMap" resultClass="java.lang.String">
+        <![CDATA[
+         select bname from cmsb_yp_sale_name where bname like concat(#qStr#,'%') ORDER BY LENGTH(bname)
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.qSearchAll" parameterClass="ParamMap" resultMap="cmsb">
+        <![CDATA[
+         select * from cmsb_yp_name
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getQyPowerInfo" parameterClass="ParamMap" resultMap="qyxse">
+        <![CDATA[
+         select * from cmsb_qy_sale_name  where bname like concat('%',#qy#,'%')
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.qSearchQy" parameterClass="ParamMap" resultClass="java.lang.String">
+        <![CDATA[
+         select bname from cmsb_qy_name where bname like concat(#qStr#,'%') ORDER BY LENGTH(bname)
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.qSearchQySale" parameterClass="ParamMap" resultClass="java.lang.String">
+        <![CDATA[
+         select bname from cmsb_qy_sale_name where bname like concat(#qStr#,'%') ORDER BY LENGTH(bname)
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.qSearchQyAll" parameterClass="ParamMap" resultMap="cmsb">
+        <![CDATA[
+         select * from cmsb_qy_name
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getZcYpAll" parameterClass="ParamMap" resultMap="cmsb">
+        <![CDATA[
+         select * from cmsb_zc_yp_name
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.qSearchPW" parameterClass="ParamMap" resultMap="cmsb">
+        <![CDATA[
+         select * from cmsb_yp_name  ORDER BY cnt  DESC
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.qSearchQyPW" parameterClass="ParamMap" resultMap="cmsb">
+        <![CDATA[
+         select * from cmsb_qy_name  ORDER BY cnt  DESC
+        ]]>
+        <isPropertyAvailable property="pageSize">
+            <![CDATA[
+		limit
+			 #pageSize#
+		  ]]>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getGcYpByCpmc" parameterClass="ParamMap" resultMap="gcyp">
+        <![CDATA[
+        select * from sfda_gcyp where
+        ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       cpmc_en like CONCAT('%', #ypm#, '%')   or cpmc_ch like CONCAT('%', #ypm#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       cpmc_ch = #ypm# or cpmc_en=#ypm#
+                   ]]>
+        </isNotEqual>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getGcYpByQy" parameterClass="ParamMap" resultMap="gcyp">
+        <![CDATA[
+        select * from sfda_gcyp where
+        ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       scdw like CONCAT('%', #qy#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       scdw = #qy#
+                   ]]>
+        </isNotEqual>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getJkYpByCpmc" parameterClass="ParamMap" resultMap="jkyp">
+        <![CDATA[
+        select * from sfda_jkyp where
+        ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       cpmc_en like CONCAT('%', #ypm#, '%')   or cpmc_ch like CONCAT('%', #ypm#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       cpmc_ch = #ypm# or cpmc_en=#ypm#
+                   ]]>
+        </isNotEqual>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getJkYpByQy" parameterClass="ParamMap" resultMap="jkyp">
+        <![CDATA[
+        select * from sfda_jkyp where
+        ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       sccs_en like CONCAT('%', #qy#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       sccs_en = #qy#
+                   ]]>
+        </isNotEqual>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getJbYwByCpmc" parameterClass="ParamMap" resultMap="jbyw">
+        <![CDATA[
+            select * from sfda_jbyw where cpmc_en like CONCAT('%', #ypm#, '%')   or cpmc like CONCAT('%', #ypm#, '%')
+          ]]>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.isJbYw" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+         <![CDATA[
+            select count(1) from sfda_jbyw where cpmc_en like CONCAT('%', #ypm#, '%')   or cpmc like CONCAT('%', #ypm#, '%')
+          ]]>
+    </select>
+
+    <select id="yp.getYbYwByCpmc" parameterClass="ParamMap" resultMap="ybyw">
+        <![CDATA[
+            select * from menet_yibao where
+          ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       ypmc like CONCAT('%', #ypm#, '%')   or ypmc_en like CONCAT('%', #ypm#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       ypmc = #ypm#
+                   ]]>
+        </isNotEqual>
+
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.isYbYw" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+        <![CDATA[
+            select count(1) from menet_yibao where ypmc like CONCAT('%', #ypm#, '%')   or ypmc_en like CONCAT('%', #ypm#, '%')
+          ]]>
+    </select>
+
+    <select id="yp.getYblx" parameterClass="java.lang.String" resultClass="java.lang.String">
+        <![CDATA[
+            select ybfl from menet_yibao where ypmc=#ypm#  or ypmc_en=#ypm# limit 1
+          ]]>
+    </select>
+
+    <select id="yp.getOTCfl" parameterClass="java.lang.String" resultClass="java.lang.String">
+        <![CDATA[
+            select otcfl from menet_otc where ypmc=#ypm# limit 1
+          ]]>
+    </select>
+
+    <select id="yp.getXywyJcxx" parameterClass="ParamMap" resultMap="jcxx">
+        <![CDATA[
+        select * from xywy_jcxx where
+        ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       tym like CONCAT('%', #ypm#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       tym = #ypm#
+                   ]]>
+        </isNotEqual>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getZdcsSale" parameterClass="ParamMap" resultMap="sale">
+        <![CDATA[
+        select * from ygy_zdcs_sale where
+        ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       cpmc_ch like CONCAT('%', #ypm#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       cpmc_ch = #ypm#
+                   ]]>
+        </isNotEqual>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+    <select id="yp.getZdcsSaleByQy" parameterClass="ParamMap" resultMap="sale">
+        <![CDATA[
+        select * from ygy_zdcs_sale where
+        ]]>
+        <isEqual property="type" compareValue="p">
+            <![CDATA[
+                       qymc like CONCAT('%', #qy#, '%')
+                   ]]>
+        </isEqual>
+        <isNotEqual property="type" compareValue="p">
+            <![CDATA[
+                       qymc = #qy#
+                   ]]>
+        </isNotEqual>
+        <isPropertyAvailable property="pageIndex">
+            <isPropertyAvailable property="pageSize">
+                <![CDATA[
+		limit
+			#pageIndex#, #pageSize#
+		  ]]>
+            </isPropertyAvailable>
+        </isPropertyAvailable>
+    </select>
+
+
+
+</sqlMap>

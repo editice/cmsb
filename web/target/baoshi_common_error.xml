@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="GBK"?>
+<errors>
+    <error code="NULL_PARAMETER_ERROR" msg="参数为空异常"/>
+
+    <error code="GET_TOKEN_FAIL" msg="获取聊天TOKEN失败"/>
+
+    <error code="INPUT_PARSE_FAIL" msg="客户端参数解析失败"/>
+
+    <error code="ACCOUNT_PASSWORD_WRONG" msg="用户名密码不匹配"/>
+
+    <error code="ACCOUNT_NOT_EXIST" msg="用户不存在"/>
+
+    <error code="ACCOUNT_NAME_ALREADY_EXIST" msg="该用户已存在"/>
+
+    <error code="ACCOUNT_CREATED_FAILED" msg="用户注册失败"/>
+
+    <error code="RESET_PASSWORD_FAILED" msg="重置密码失败"/>
+
+    <error code="CIRCLE_TITLE_ALREADY_EXIST" msg="该圈子名称已存在"/>
+
+    <error code="CIRCLE_OWNER_CANNOT_DELETE" msg="圈主不能被移除"/>
+
+    <error code="CIRCLE_NOT_EXIST" msg="该圈子不存在"/>
+
+    <error code="ACCOUNT_NO_PERMISSION" msg="该账户没有权限"/>
+
+    <error code="ACTIVITY_NOT_EXIST" msg="该活动不存在"/>
+
+    <error code="MEMBER_ENOUGH" msg="人数已经达到上限"/>
+
+     <error code="ACCOUNT_NO_PERMISSION_HANDLE_ACTIVITY" msg="该账户没有权限编辑活动"/>
+
+    <error code="ACIIVITY_HAS_NO_ACCOUNT" msg="系统异常，该活动没有成员"/>
+
+    <error code="ACCOUNT_NOT_IN_ACTIVITY" msg="账户未参加该活动"/>
+
+    <error code="SEND_SMS_CODE_FAIL" msg="发送短信验证码失败"/>
+
+    <error code="INSERT_SMS_CODE_FAIL" msg="存储短信验证码失败"/>
+
+    <error code="SMS_CODE_VERTIFY_FAIL" msg="短信验证码校验失败"/>
+
+    <error code="SYSTEM_ERROR" msg="系统繁忙，请稍后再试"/>
+
+    <error code="PUBLISH_STATUS_FAILED" msg="发布状态失败"/>
+
+    <error code="CIRCLE_TITLE_ALREADY_BEEN_APPLYED" msg="该圈子名称已被人申请"/>
+
+    <error code="MAXIUM_CIRCLE_PEOPLE_NUM" msg="圈子人数已满，不能再加入了"/>
+
+    <error code="CREATE_OPENFIRE_ACCOUNT_FAILED" msg="创建用户成功，但是聊天用户创建失败"/>
+
+    <error code="ACCOUNT_NOT_SET_NEW_PASSWORD" msg="请给定新用户密码"/>
+
+    <error code="ACCOUNT_CHANGE_OPENFIRE_PASSWD_FAILED" msg="修改openfire密码失败"/>
+
+    <error code="ACCOUNT_NO_PERMISSION_HANDLE_ANNOUNCE" msg="该账户没有权限编辑公告"/>
+
+    <error code="RECORD_NOT_EXIST" msg="该条记录不存在"/>
+
+    <error code="STATUS_NOT_EXIST" msg="该动态记录不存在"/>
+
+    <error code="PROVIDER_NOT_EXIST" msg="该供需不存在"/>
+</errors>

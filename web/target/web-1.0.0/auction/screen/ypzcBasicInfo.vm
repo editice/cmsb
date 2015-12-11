@@ -1,0 +1,236 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div style="font-size:24px;color:#64a1d7;margin-top:20px;margin-bottom:30px;font-weight:blod;display:inline" >
+        药品注册申报查询
+    </div>
+
+    <div class="xian "style="width:1000px; border-top:1px solid #ddd" ></div>
+    <h5>
+        <form class="form-horizontal" method="post" action="/web/law/ypzcBasicInfo?pageNum=1">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">药品名称</label>
+                <input  type="text" id="keyword" name="ypmc" class="form-control" placeholder="..."
+                        style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">受理号码</label>
+                <input  type="text" id="keyword" name="slhm" class="form-control" placeholder="..."
+                        style="width: 200px"/>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">企业名称</label>
+                <input  type="text" id="keyword" name="qymc" class="form-control" placeholder="..."
+                        style="width: 200px"/>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">注册分类</label>
+                <input  type="text" id="keyword" name="zcfl" class="form-control" placeholder="..."
+                        style="width: 200px"/>
+            </div>
+
+            <div class="form-group">
+                <label for="dtp_input1" class="col-md-2 control-label">状态日期</label>
+                <div class="input-group date form_date col-md-3" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input1" name="ztrq" value="" /><br/>
+            </div>
+
+            <div class="form-group">
+                <label for="dtp_input2" class="col-md-2 control-label">承办日期</label>
+                <div class="input-group date form_date col-md-3" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input2" name="cbrq" value="" /><br/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">办理状态</label>
+
+                <div style="width: 200px;float:left">
+                    <select name="blzt" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">已发件</option>
+                        <option value="2">待审评</option>
+                        <option value="3">在审评</option>
+                        <option value="4">审批完毕</option>
+                        <option value="5">在审批</option>
+                        <option value="6">待审批</option>
+                        <option value="7">制证完毕</option>
+                        <option value="8">已发通知件</option>
+                        <option value="9">制证结束</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">药品类型</label>
+                <input  type="text" id="keyword2" name="yplx" class="form-control" placeholder="..."
+                        style="width: 200px"/>
+            </div>
+
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">申请类型</label>
+
+                <div style="width: 200px;float:left">
+                    <select name="sqlx" class="form-control">
+                        <option value="0">--请选类型--</option>
+                        <option value="1">新药</option>
+                        <option value="2">进口</option>
+                        <option value="3">仿制</option>
+                        <option value="4">补充申请</option>
+                        <option value="5">复审</option>
+                        <option value="6">已有国家标准</option>
+                        <option value="7">排队待审评</option>
+                        <option value="8">进口再注册</option>
+                        <option value="9">进口重新注册</option>
+                        <option value="10">药械组合产品</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="file" class="btn btn-sm btn-primary">查询</button>
+            </div>
+        </form>
+    </h5>
+
+    <div>
+        #if(${result.get("info")}==true)
+        ##    字体大小难以控制，因此在这里写死
+            <div class="table-responsive">
+                #set ($cnt=1)
+            ##    table-hover 浮动
+                <table class="table table-hover">
+                    <thead>
+                    <tr style="font-size: 14px;font-weight:blod;color:blue">
+                        <th>药品名称</th>
+                        <th>受理号码</th>
+                        <th>药品类型</th>
+                        <th>申请类型</th>
+                        <th>注册分类</th>
+                        <th>承办日期</th>
+                        <th>企业名称</th>
+                        <th>办理状态</th>
+                        <th>状态开始日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($param in $result.get("zcBasicInfo"))
+                        <tr style="font-size: 10px">
+                            <td><a href="/web/law/ypzcDetail?ypmc=$!{param.ypmc}">$!{param.ypmc}</a></td>
+                            <td>$!{param.slhm}</td>
+                            <td>$!{param.yplx}</td>
+                            <td>$!{param.sqlx}</td>
+                            <td>$!{param.zcfl}</td>
+                            <td>$!{dateTool.format("MEDIUM", $!{param.cbrq})}</td>
+                            <td>$!{param.qymc}</td>
+                            <td>$!{param.blzt}</td>
+                            <td>$!{dateTool.format("MEDIUM", $!{param.ztrq})}</td>
+                        </tr>
+                            #set ($cnt=$cnt+1)
+                        #end
+                    </tbody>
+                </table>
+            </div>
+
+
+            #set ($prefix='/web/law/ypzcBasicInfo?ypmc=')
+            #set ($name1 =$!{result.get("ypmc")})
+            #set ($name2 =$!{result.get("slhm")})
+            #set ($name3 =$!{result.get("qymc")})
+            #set ($name4 =$!{result.get("zcfl")})
+            #set ($name5 =$!{result.get("ztrq")})
+            #set ($name6 =$!{result.get("cbrq")})
+            #set ($name7 =$!{result.get("blzt")})
+            #set ($name8 =$!{result.get("sqlx")})
+            #set ($name9 =$!{result.get("yplx")})
+            #set ($prefix="${prefix}$!{name1}&slhm=${name2}&qymc=${name3}&zcfl=${name4}&ztrq=${name5}&cbrq=${name6}&blzt=${name7}&sqlx=${name8}&yplx=${name9}")
+            #set ($pageBean=${result.get("pageBean")})
+
+            <div class="pagination pagination-centered">
+                <ul class="pagination">
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>首页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=1">首页</a></li>
+                    #end
+
+                    #if($pageBean.pageNum==1)
+                        <li class="disabled"><a>«</a></li>
+                    #else
+                        <li><a href="$!{prefix}&pageNum=$pageBean.pre" class="active">«</a></li>
+                    #end
+
+
+                    #foreach($p in $pageBean.pages)
+                        #if($p==$pageBean.pageNum)
+                            <li class="disabled"><a>$p</a></li>
+                        #else
+                            <li><a href="${prefix}&pageNum=$p">$p</a></li>
+                        #end
+
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>»</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.next">»</a></li>
+                    #end
+
+
+                    #if($pageBean.pageNum==$pageBean.totalPage)
+                        <li class="disabled"><a>末页</a></li>
+                    #else
+                        <li><a href="${prefix}&pageNum=$pageBean.totalPage">末页</a></li>
+                    #end
+                </ul>
+            </div>
+        #end
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $("#keyword").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/web/medicine/getAssociation",
+                dataType: "jsonp",
+                data: {
+                    maxRows: 10,
+                    q: request.term,
+                    biz:'10'
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1
+    });
+
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+
+</script>
+
